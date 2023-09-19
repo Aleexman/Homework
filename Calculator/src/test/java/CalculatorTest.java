@@ -4,6 +4,7 @@ import org.example.DriverFactory;
 import org.example.PageObjects.ScientificCalculatorPage;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -21,7 +22,7 @@ public class CalculatorTest {
 
     @AfterTest
     public void cleanUp(){
-         driver.close();
+         //driver.close();
     }
 
     @Test
@@ -44,32 +45,44 @@ public class CalculatorTest {
         scientificCalculatorPage.clickResultButton();
         double result = scientificCalculatorPage.getValueFromResultOutput();
         Assert.assertEquals(result,8*(8-3));
-        scientificCalculatorPage.clearInput();
+        driver.switchTo().activeElement().sendKeys(Keys.DELETE);
 
         scientificCalculatorPage.clickLogButton();
-        scientificCalculatorPage.clickFiveButton();
-        scientificCalculatorPage.clickSixButton();
-        scientificCalculatorPage.clickRightBracketButton();
-        scientificCalculatorPage.clickDivideButton();
+        new Actions(driver).sendKeys("56")
+                .keyDown(Keys.SHIFT)
+                .sendKeys(")")
+                .keyUp(Keys.SHIFT)
+                .sendKeys("/")
+                .perform();
         scientificCalculatorPage.clickLnButton();
-        scientificCalculatorPage.clickFiveButton();
-        scientificCalculatorPage.clickSixButton();
-        scientificCalculatorPage.clickRightBracketButton();
-        scientificCalculatorPage.clickMultipleButton();
-        scientificCalculatorPage.clickLeftBracketButton();
-        scientificCalculatorPage.clickFiveButton();
-        scientificCalculatorPage.clickMultipleButton();
+        new Actions(driver)
+                .sendKeys("56")
+                .keyDown(Keys.SHIFT)
+                .sendKeys(")*")
+                .keyUp(Keys.SHIFT)
+                .keyDown(Keys.SHIFT)
+                .sendKeys("(")
+                .keyUp(Keys.SHIFT)
+                .sendKeys("5")
+                .keyDown(Keys.SHIFT)
+                .sendKeys("*")
+                .keyUp(Keys.SHIFT)
+                .perform();
         scientificCalculatorPage.clickSqrtButton();
-        scientificCalculatorPage.clickFourButton();
-        scientificCalculatorPage.clickRightBracketButton();
-        scientificCalculatorPage.clickMultipleButton();
-        scientificCalculatorPage.clickOneButton();
-        scientificCalculatorPage.clickZeroButton();
-        scientificCalculatorPage.clickRightBracketButton();
+        new Actions(driver)
+                .sendKeys("4")
+                .keyDown(Keys.SHIFT)
+                .sendKeys(")*")
+                .keyUp(Keys.SHIFT)
+                .sendKeys("10")
+                .keyDown(Keys.SHIFT)
+                .sendKeys(")")
+                .keyUp(Keys.SHIFT)
+                .perform();
+
         double secondResult = Math.log10(56)/Math.log(56)*(5*Math.sqrt(4)*10);
         String secondResultFormatted = String.format("%.8f",secondResult).replace(",",".");
         System.out.println(secondResult);
-
         double valueFromSecondOutput = scientificCalculatorPage.getValueFromResultOutput();
         Assert.assertEquals(String.valueOf(valueFromSecondOutput),secondResultFormatted);
         scientificCalculatorPage.clearInput();
