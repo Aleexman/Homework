@@ -54,22 +54,6 @@ public class ScientificCalculatorPage {
         driver.findElement(resultButton).click();
     }
 
-    public void clickOneButton() {
-        driver.findElement(oneButton).click();
-    }
-
-    public void clickSixButton() {
-        driver.findElement(sixButton).click();
-    }
-
-    public void clickFourButton() {
-        driver.findElement(fourButton).click();
-    }
-
-    public void clickZeroButton() {
-        driver.findElement(zeroButton).click();
-    }
-
     public void clickLnButton() {
         driver.findElement(lnButton).click();
     }
@@ -81,26 +65,9 @@ public class ScientificCalculatorPage {
     public void clickSqrtButton() {
         driver.findElement(sqrtButton).click();
     }
-
-    public void clickDivideButton() {
-        driver.findElement(divideButton).click();
-    }
-
-    public void clickFiveButton() {
-        driver.findElement(fiveButton).click();
-    }
-
     public double getValueFromResultOutput() {
         String result = driver.findElement(sciOutPut).getText();
         return Double.parseDouble(result.replaceAll(" ", ""));
-    }
-
-    public void clearInput() {
-        driver.findElement(acButton).click();
-    }
-
-    public void setValueIntoInput() {
-        driver.findElement(sciInPut).sendKeys("2+2");
     }
 
 }

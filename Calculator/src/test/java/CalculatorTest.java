@@ -10,8 +10,6 @@ import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import java.text.DecimalFormat;
-
 public class CalculatorTest {
     WebDriver driver = DriverFactory.getWebDriverInstance();
     @BeforeTest
@@ -22,7 +20,7 @@ public class CalculatorTest {
 
     @AfterTest
     public void cleanUp(){
-         //driver.close();
+         driver.close();
     }
 
     @Test
@@ -30,8 +28,6 @@ public class CalculatorTest {
         CalculatorHomePage calculatorHomePage = new CalculatorHomePage();
         AllCalculatorsPage allCalculatorsPage = new AllCalculatorsPage();
         ScientificCalculatorPage scientificCalculatorPage = new ScientificCalculatorPage();
-
-
 
         calculatorHomePage.clickAllCalculatorsButton();
         allCalculatorsPage.clickScientificCalculatorsButton();
@@ -47,16 +43,16 @@ public class CalculatorTest {
         Assert.assertEquals(result,8*(8-3));
         driver.switchTo().activeElement().sendKeys(Keys.DELETE);
 
+        Actions actions = new Actions(driver);
         scientificCalculatorPage.clickLogButton();
-        new Actions(driver).sendKeys("56")
+        actions.sendKeys("56")
                 .keyDown(Keys.SHIFT)
                 .sendKeys(")")
                 .keyUp(Keys.SHIFT)
                 .sendKeys("/")
                 .perform();
         scientificCalculatorPage.clickLnButton();
-        new Actions(driver)
-                .sendKeys("56")
+        actions.sendKeys("56")
                 .keyDown(Keys.SHIFT)
                 .sendKeys(")*")
                 .keyUp(Keys.SHIFT)
@@ -69,8 +65,7 @@ public class CalculatorTest {
                 .keyUp(Keys.SHIFT)
                 .perform();
         scientificCalculatorPage.clickSqrtButton();
-        new Actions(driver)
-                .sendKeys("4")
+        actions.sendKeys("4")
                 .keyDown(Keys.SHIFT)
                 .sendKeys(")*")
                 .keyUp(Keys.SHIFT)
@@ -78,6 +73,8 @@ public class CalculatorTest {
                 .keyDown(Keys.SHIFT)
                 .sendKeys(")")
                 .keyUp(Keys.SHIFT)
+                .sendKeys("=")
+                .sendKeys(Keys.BACK_SPACE)
                 .perform();
 
         double secondResult = Math.log10(56)/Math.log(56)*(5*Math.sqrt(4)*10);
@@ -85,16 +82,5 @@ public class CalculatorTest {
         System.out.println(secondResult);
         double valueFromSecondOutput = scientificCalculatorPage.getValueFromResultOutput();
         Assert.assertEquals(String.valueOf(valueFromSecondOutput),secondResultFormatted);
-        scientificCalculatorPage.clearInput();
-
-
-
-
-
-
-
-
-
     }
-
 }
