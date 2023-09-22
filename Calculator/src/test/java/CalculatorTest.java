@@ -74,7 +74,6 @@ public class CalculatorTest {
                 .sendKeys(")")
                 .keyUp(Keys.SHIFT)
                 .sendKeys("=")
-                .sendKeys(Keys.BACK_SPACE)
                 .perform();
 
         double secondResult = Math.log10(56)/Math.log(56)*(5*Math.sqrt(4)*10);
@@ -82,5 +81,8 @@ public class CalculatorTest {
         System.out.println(secondResult);
         double valueFromSecondOutput = scientificCalculatorPage.getValueFromResultOutput();
         Assert.assertEquals(String.valueOf(valueFromSecondOutput),secondResultFormatted);
+
+        actions.sendKeys(Keys.BACK_SPACE).perform();
     }
+
 }
